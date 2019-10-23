@@ -7,7 +7,7 @@ namespace ShowdownGame
     public class PokerPlayer
     {
         public string Name;
-        private string[] Cards;
+        public string[] Cards;
         public List<Card> Hand = new List<Card>();
 
         public PokerPlayer(string name, string cards)

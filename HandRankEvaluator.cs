@@ -17,9 +17,14 @@ namespace ShowdownGame
         public int HighCardValue;
         public List<Card> SortedHand;
 
-        public HandRankEvaluator(List<Card> hand)
+        public int ThreeOfKindValue;
+        public List<Card> CardsNotInPlay;
+        public PokerPlayer Player;
+
+        public HandRankEvaluator(PokerPlayer player)
         {
-            SortedHand = HandSortedByRank(hand);
+            Player = player;
+            SortedHand = HandSortedByRank(player.Hand);
             CurrentHandRank = CalculateRank(SortedHand);
             
             //if HIGH_CARD get value
@@ -71,13 +76,34 @@ namespace ShowdownGame
             bool beginningMatch = SortedHand[0].Value == SortedHand[1].Value &&
                 SortedHand[1].Value == SortedHand[2].Value;
 
+            //store ThreeOfKindValue
+            if (beginningMatch)
+            {
+                ThreeOfKindValue = SortedHand[0].Value;
+            }
+
             //check for 2 3 3 3 4
             bool middleMatch = SortedHand[1].Value == SortedHand[2].Value &&
                 SortedHand[2].Value == SortedHand[3].Value;
 
+            //store ThreeOfKindValue
+            if (middleMatch)
+            {
+                ThreeOfKindValue = SortedHand[1].Value;
+            }
+
             //check for 2 3 4 4 4 nb.doesn't account for full house, out of scope
             bool endMatch = SortedHand[2].Value == SortedHand[3].Value &&
                 SortedHand[3].Value == SortedHand[4].Value;
+
+            //store ThreeOfKindValue
+            if (endMatch)
+            {
+                ThreeOfKindValue = SortedHand[2].Value;
+            }
+
+            CardsNotInPlay = SortedHand.Where(c => c.Value > ThreeOfKindValue)
+                .OrderBy(c => c.Value).ToList();
 
             return beginningMatch || middleMatch || endMatch;
         }
