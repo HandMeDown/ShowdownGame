@@ -38,11 +38,17 @@ namespace ShowdownGame
 ;                    
             }
             //gamePlayers.ForEach(i => Console.Write("{0}\t {1}\t", i.Name, i.Cards));
-            //foreach (var currentPlayer in gamePlayers)
-            //{
-            //    var currentHand = currentPlayer.EvaluateHand();
-            //}
+            EvaluateHand(gamePlayers);
             Console.ReadLine();
+        }
+
+        private static void EvaluateHand(List<PokerPlayer> gamePlayers)
+        {
+            foreach (var currentPlayer in gamePlayers)
+            {
+                var currentPlayerHand = new HandRankEvaluator(currentPlayer.Hand);
+                Console.WriteLine(currentPlayerHand.CurrentHandRank);
+            }
         }
     }
 }

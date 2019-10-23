@@ -8,12 +8,11 @@ namespace ShowdownGame
     {
         public string Name;
         private string[] Cards;
-        private HandRank Rank;
-        private List<Card> Hand;
+        public List<Card> Hand = new List<Card>();
 
         public PokerPlayer(string name, string cards)
         {
-            this.Name = name;
+            this.Name = name; 
             this.Cards = cards.Split(',');
 
             //convert cards string array to Card object
@@ -26,11 +25,10 @@ namespace ShowdownGame
                 var suitIndex = item.Length - 1;
 
                 //convert to Card object and add to Hand
-                var newCard = new Card(item.Substring(0, suitIndex), item.Substring(suitIndex));
+                var newCard = new Card(item.Substring(0, suitIndex).ToUpper(), item.Substring(suitIndex));
                 Hand.Add(newCard);
             }
 
-           // this.Rank = new HandRankEvaluator.calculateRank(Hand);
         }
 
 
