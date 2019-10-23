@@ -37,7 +37,11 @@ namespace ShowdownGame
                 gotName = false;
 ;                    
             }
-            gamePlayers.ForEach(i => Console.Write("{0}\t {1}\t", i.Name, i.Cards));
+            //gamePlayers.ForEach(i => Console.Write("{0}\t {1}\t", i.Name, i.Cards));
+            //foreach (var currentPlayer in gamePlayers)
+            //{
+            //    var currentHand = currentPlayer.EvaluateHand();
+            //}
             Console.ReadLine();
         }
     }
