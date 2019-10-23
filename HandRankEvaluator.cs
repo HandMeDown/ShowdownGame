@@ -15,18 +15,17 @@ namespace ShowdownGame
 
         public HandRank CurrentHandRank;
         public int HighCardValue;
+        public List<Card> SortedHand;
 
         public HandRankEvaluator(List<Card> hand)
         {
-            CurrentHandRank = CalculateRank(hand);
+            SortedHand = HandSortedByRank(hand);
+            CurrentHandRank = CalculateRank(SortedHand);
             
             //if HIGH_CARD get value
             if (CurrentHandRank == HandRank.HIGH_CARD)
             {
-                HandSortedByRank(hand);
-                List<Card> sortedHand = HandSortedByRank(hand);
-                HighCardValue = sortedHand[4].Value;
-
+                HighCardValue = SortedHand[4].Value;
             }
         }
 
@@ -68,37 +67,34 @@ namespace ShowdownGame
 
         private bool IsThreeOfAKind(List<Card> hand)
         {
-            List<Card> sortedHand = HandSortedByRank(hand);
-
             //check for 2 2 2 3 4
-            bool beginningMatch = sortedHand[0].Value == sortedHand[1].Value &&
-                sortedHand[1].Value == sortedHand[2].Value;
+            bool beginningMatch = SortedHand[0].Value == SortedHand[1].Value &&
+                SortedHand[1].Value == SortedHand[2].Value;
 
             //check for 2 3 3 3 4
-            bool middleMatch = sortedHand[1].Value == sortedHand[2].Value &&
-                sortedHand[2].Value == sortedHand[3].Value;
+            bool middleMatch = SortedHand[1].Value == SortedHand[2].Value &&
+                SortedHand[2].Value == SortedHand[3].Value;
 
             //check for 2 3 4 4 4 nb.doesn't account for full house, out of scope
-            bool endMatch = sortedHand[2].Value == sortedHand[3].Value &&
-                sortedHand[3].Value == sortedHand[4].Value;
+            bool endMatch = SortedHand[2].Value == SortedHand[3].Value &&
+                SortedHand[3].Value == SortedHand[4].Value;
 
             return beginningMatch || middleMatch || endMatch;
         }
 
         private bool IsOnePair(List<Card> hand)
         {
-            List<Card> sortedHand = HandSortedByRank(hand);
             // check 2 2 3 4 5
-            bool aaxyz = sortedHand[0].Value == sortedHand[1].Value;
+            bool aaxyz = SortedHand[0].Value == SortedHand[1].Value;
 
             //check 2 3 3 4 5
-            bool xaayz = sortedHand[1].Value == sortedHand[2].Value;
+            bool xaayz = SortedHand[1].Value == SortedHand[2].Value;
 
             //check 2 3 4 4 5
-            bool xyaaz = sortedHand[2].Value == sortedHand[3].Value;
+            bool xyaaz = SortedHand[2].Value == SortedHand[3].Value;
 
             // 2 3 4 5 5
-            bool xyzaa = sortedHand[3].Value == sortedHand[4].Value;
+            bool xyzaa = SortedHand[3].Value == SortedHand[4].Value;
 
             return aaxyz || xaayz || xyaaz || xyzaa;
         }

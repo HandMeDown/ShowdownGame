@@ -10,6 +10,7 @@ namespace ShowdownGame
         {
 
             var gamePlayers = new List<PokerPlayer>();
+            //var winners = new List<PokerPlayer>();
 
             string name = null;
             bool gotName = false;
@@ -25,7 +26,7 @@ namespace ShowdownGame
                     continue;
                 }
 
-               // Console.WriteLine(name + " " + line);
+                // Console.WriteLine(name + " " + line);
 
                 //create new PokerPlayer object
                 var newPlayer = new PokerPlayer(name, line);
@@ -35,20 +36,61 @@ namespace ShowdownGame
 
                 name = null;
                 gotName = false;
-;                    
             }
             //gamePlayers.ForEach(i => Console.Write("{0}\t {1}\t", i.Name, i.Cards));
-            EvaluateHand(gamePlayers);
+            DetermineWinners(gamePlayers);
             Console.ReadLine();
         }
 
-        private static void EvaluateHand(List<PokerPlayer> gamePlayers)
+        private static List<PokerPlayer> DetermineWinners(List<PokerPlayer> gamePlayers)
         {
+            HandRankEvaluator winningHand = null;
+            List<PokerPlayer> winningPlayers = new List<PokerPlayer>();
+
             foreach (var currentPlayer in gamePlayers)
             {
                 var currentPlayerHand = new HandRankEvaluator(currentPlayer.Hand);
-                Console.WriteLine(currentPlayerHand.CurrentHandRank);
+
+                //if hands out-rank each other
+                if (winningHand == null || currentPlayerHand.CurrentHandRank > winningHand.CurrentHandRank)
+                {
+                    winningHand = currentPlayerHand;
+                    winningPlayers.Clear();
+                    winningPlayers.Add(currentPlayer);
+                }
+                //in case of tie
+                else if (currentPlayerHand.CurrentHandRank == winningHand.CurrentHandRank)
+                {
+                    // if flush
+                    if (currentPlayerHand.CurrentHandRank == Enums.HandRank.FLUSH)
+                    {
+
+                        //KickerLogic(currentPlayerHand, winningHand);
+
+                        int count = 0;
+
+                        for (int i = 4; i >= 0; i--)
+                        {
+                            if (currentPlayerHand.SortedHand[i].Value > winningHand.SortedHand[i].Value)
+                            {
+                                winningHand = currentPlayerHand;
+                                winningPlayers.Add(currentPlayer);
+                            }
+                            else if (currentPlayerHand.SortedHand[i].Value == winningHand.SortedHand[i].Value)
+                            {
+                                count++;
+                            }
+                        }
+
+                        if (count == 5)
+                        {
+                            //tie - add currentPlayer to Winners collection
+                            winningPlayers.Add(currentPlayer);
+                        }
+                    }
+                }
             }
+            return winningPlayers;
         }
     }
 }
