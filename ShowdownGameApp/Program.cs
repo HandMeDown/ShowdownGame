@@ -178,23 +178,6 @@ namespace ShowdownGame
             return winningPlayers;
         }
 
-        //private static List<PokerPlayer> KickerLogic(HandRankEvaluator currentPlayerHand, HandRankEvaluator winningHand)
-        //{
-        //    List<PokerPlayer> kickerWinners = new List<PokerPlayer>();
-
-        //        if (winningHand.CardsNotInPlay[0].Value < currentPlayerHand.CardsNotInPlay[0].Value)
-        //        {
-        //            kickerWinners.Add(currentPlayerHand.Player);
-        //        }
-        //        else
-        //        {
-        //            kickerWinners.Add(winningHand.Player);
-        //        }
-
-        //        return kickerWinners;
-
-        //}
-
         private static List<PokerPlayer> KickerLogic(HandRankEvaluator currentPlayerHand, HandRankEvaluator winningHand)
         {
 
@@ -214,7 +197,7 @@ namespace ShowdownGame
                     count++;
                 }
                 
-                if (count == 5)
+                if (count == winningHand.CardsNotInPlay.Count)
                 {
 
                     
