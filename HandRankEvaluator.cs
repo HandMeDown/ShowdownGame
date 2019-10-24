@@ -32,6 +32,8 @@ namespace ShowdownGame
             if (CurrentHandRank == HandRank.HIGH_CARD)
             {
                 HighCardValue = SortedHand[4].Value;
+                CardsNotInPlay = SortedHand.Where(c => c.Value != HighCardValue)
+                    .OrderBy(c => c.Value).ToList();
             }
         }
 
@@ -52,7 +54,10 @@ namespace ShowdownGame
                 return HandRank.ONE_PAIR;
             }
             //TODO: determine what exactly to return here
-            else return HandRank.HIGH_CARD;
+            else
+            {
+                return HandRank.HIGH_CARD;
+            }
         }
 
         public List<Card> HandSortedByRank(List<Card> hand)

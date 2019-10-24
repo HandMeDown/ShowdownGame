@@ -42,7 +42,6 @@ namespace ShowdownGame
                 Console.WriteLine(player.Name);
                 foreach (string card in player.Cards)
                 {
-                    //Console.Write("{0}{1}" + ",", card.Value.ToString(), card.Suit.ToString());
                     Console.Write(card);
                 }
                 Console.WriteLine();
@@ -66,7 +65,6 @@ namespace ShowdownGame
 
             foreach (var currentPlayer in gamePlayers)
             {
-                Console.WriteLine(currentPlayer.Name);
                 var currentPlayerHand = new HandRankEvaluator(currentPlayer);
 
                 //if hands out-rank each other
@@ -140,6 +138,34 @@ namespace ShowdownGame
                             }
                         }
                     }
+
+                    //if high card
+                    if (currentPlayerHand.CurrentHandRank == Enums.HandRank.HIGH_CARD)
+                    {
+                        if(currentPlayerHand.HighCardValue > winningHand.HighCardValue)
+                        {
+                            winningHand = currentPlayerHand;
+                            winningPlayers.Clear();
+                            winningPlayers.Add(currentPlayer);
+                        }
+                        else if (currentPlayerHand.HighCardValue == winningHand.HighCardValue)
+                        {
+                            //must clear current winners as we are using a null check above
+                            winningPlayers.Clear();
+                            List<PokerPlayer> KickerWinners = KickerLogic(currentPlayerHand, winningHand);
+
+                            //loop through KickerWinners adding to winningPlayers
+                            foreach (PokerPlayer winner in KickerWinners)
+                            {
+                                winningPlayers.Add(winner);
+                            }
+                        }
+                        else
+                        {
+                            winningPlayers.Clear();
+                            winningPlayers.Add(winningHand.Player);
+                        }
+                    }
                 }
             }
             return winningPlayers;
@@ -164,11 +190,13 @@ namespace ShowdownGame
 
         private static List<PokerPlayer> KickerLogic(HandRankEvaluator currentPlayerHand, HandRankEvaluator winningHand)
         {
+
+            bool tie = false;
             List<PokerPlayer> kickerWinners = new List<PokerPlayer>();
 
             int count = 0;
             //Check the hand in reverse order
-            for (int i = 4; i >= 0; i--)
+            for (int i = winningHand.CardsNotInPlay.Count - 1; i >= 0; i--)
             {
                 if (winningHand.CardsNotInPlay[i].Value < currentPlayerHand.CardsNotInPlay[i].Value)
                 {
@@ -182,6 +210,8 @@ namespace ShowdownGame
                 
                 if (count == 5)
                 {
+
+                    
                     kickerWinners.Add(currentPlayerHand.Player);
                     kickerWinners.Add(winningHand.Player);
                 }
