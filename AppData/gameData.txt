@@ -1,6 +1,6 @@
+Joe
+8S, 8D, AD, QD, JH
 Bob
-2C, 2S, 2H, 4S, 6C
+AS, QS, 8S, 6S, 4S
 Sally
-2C, 2S, 2H, 3C, 6C
-George
-2C, 2S, 2H, 5C, 6C
+4S, 4H, 3H, QC, 8C

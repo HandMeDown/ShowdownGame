@@ -84,7 +84,7 @@ namespace ShowdownGame
                     {
                         //must clear current winners as we are using a null check above
                         winningPlayers.Clear();
-                        List<PokerPlayer> KickerWinners = KickerLogic(currentPlayer, currentPlayerHand, winningHand);
+                        List<PokerPlayer> KickerWinners = KickerLogic(currentPlayerHand, winningHand);
 
                         //loop through KickerWinners adding to winningPlayers
                         foreach(PokerPlayer winner in KickerWinners)
@@ -107,7 +107,7 @@ namespace ShowdownGame
                         {
                             //must clear current winners as we are using a null check above
                             winningPlayers.Clear();
-                            List<PokerPlayer> KickerWinners = KickerLogic(currentPlayer, currentPlayerHand, winningHand);
+                            List<PokerPlayer> KickerWinners = KickerLogic(currentPlayerHand, winningHand);
 
                             //loop through KickerWinners adding to winningPlayers
                             foreach(PokerPlayer winner in KickerWinners)
@@ -117,42 +117,78 @@ namespace ShowdownGame
                         }
 
                     }
+
+                    // if one pair
+                    if (currentPlayerHand.CurrentHandRank == Enums.HandRank.ONE_PAIR)
+                    {
+                        if (currentPlayerHand.OnePairValue > winningHand.OnePairValue)
+                        {
+                            winningPlayers.Clear();
+                            winningPlayers.Add(currentPlayer);
+                        }
+                        //if value is same
+                        else if (currentPlayerHand.OnePairValue == winningHand.OnePairValue)
+                        {
+                            //must clear current winners as we are using a null check above
+                            winningPlayers.Clear();
+                            List<PokerPlayer> KickerWinners = KickerLogic(currentPlayerHand, winningHand);
+
+                            //loop through KickerWinners adding to winningPlayers
+                            foreach (PokerPlayer winner in KickerWinners)
+                            {
+                                winningPlayers.Add(winner);
+                            }
+                        }
+                    }
                 }
             }
             return winningPlayers;
         }
 
-        private static List<PokerPlayer> KickerLogic(PokerPlayer currentPlayer, HandRankEvaluator currentPlayerHand, HandRankEvaluator winningHand)
+        //private static List<PokerPlayer> KickerLogic(HandRankEvaluator currentPlayerHand, HandRankEvaluator winningHand)
+        //{
+        //    List<PokerPlayer> kickerWinners = new List<PokerPlayer>();
+
+        //        if (winningHand.CardsNotInPlay[0].Value < currentPlayerHand.CardsNotInPlay[0].Value)
+        //        {
+        //            kickerWinners.Add(currentPlayerHand.Player);
+        //        }
+        //        else
+        //        {
+        //            kickerWinners.Add(winningHand.Player);
+        //        }
+
+        //        return kickerWinners;
+
+        //}
+
+        private static List<PokerPlayer> KickerLogic(HandRankEvaluator currentPlayerHand, HandRankEvaluator winningHand)
         {
             List<PokerPlayer> kickerWinners = new List<PokerPlayer>();
 
             int count = 0;
-
-            int noOfCards = winningHand.CardsNotInPlay.Count;
-
-            //loop for length of remaining cards
-
-            for (int i = noOfCards - 1; i >= 0; i--)
+            //Check the hand in reverse order
+            for (int i = 4; i >= 0; i--)
             {
-                if (winningHand.CardsNotInPlay[noOfCards - 1].Value > currentPlayerHand.CardsNotInPlay[i].Value)
+                if (winningHand.CardsNotInPlay[i].Value < currentPlayerHand.CardsNotInPlay[i].Value)
                 {
-                    kickerWinners.Clear();
-                    kickerWinners.Add(winningHand.Player);
+                    kickerWinners.Add(currentPlayerHand.Player);
+                    break;
                 }
-                else if (winningHand.CardsNotInPlay[noOfCards - 1].Value == currentPlayerHand.CardsNotInPlay[i].Value)
+                else if (winningHand.CardsNotInPlay[i].Value == currentPlayerHand.CardsNotInPlay[i].Value)
                 {
                     count++;
                 }
-
-            }
-
-            if (count == 5)
-            {
-                //tie - add currentPlayer to Winners collection
-                kickerWinners.Add(currentPlayer);
+                
+                if (count == 5)
+                {
+                    kickerWinners.Add(currentPlayerHand.Player);
+                    kickerWinners.Add(winningHand.Player);
+                }
             }
 
             return kickerWinners;
+
         }
     }
 }

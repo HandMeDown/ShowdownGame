@@ -18,6 +18,7 @@ namespace ShowdownGame
         public List<Card> SortedHand;
 
         public int ThreeOfKindValue;
+        public int OnePairValue;
         public List<Card> CardsNotInPlay;
         public PokerPlayer Player;
 
@@ -65,7 +66,10 @@ namespace ShowdownGame
             //count suits, if any come back == 5 player has a Flush
             CountSuits(hand);
 
-            //TODO = setHighestCard
+
+
+            //copy all cards to CardsNotInPlay for kicker logic
+            CardsNotInPlay = hand.OrderBy(c => c.Value).ToList();
 
             return totalHearts == 5 || totalSpades == 5 || totalDiamonds == 5 || totalClubs == 5;
         }
@@ -113,14 +117,34 @@ namespace ShowdownGame
             // check 2 2 3 4 5
             bool aaxyz = SortedHand[0].Value == SortedHand[1].Value;
 
+            if (aaxyz)
+            {
+                OnePairValue = SortedHand[0].Value;
+            }
+
             //check 2 3 3 4 5
             bool xaayz = SortedHand[1].Value == SortedHand[2].Value;
+
+            if (xaayz)
+            {
+                OnePairValue = SortedHand[1].Value;
+            }
 
             //check 2 3 4 4 5
             bool xyaaz = SortedHand[2].Value == SortedHand[3].Value;
 
+            if (xyaaz)
+            {
+                OnePairValue = SortedHand[2].Value;
+            }
+
             // 2 3 4 5 5
             bool xyzaa = SortedHand[3].Value == SortedHand[4].Value;
+
+            if (xyzaa)
+            {
+                OnePairValue = SortedHand[3].Value;
+            }
 
             return aaxyz || xaayz || xyaaz || xyzaa;
         }
