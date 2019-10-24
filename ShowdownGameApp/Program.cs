@@ -4,36 +4,12 @@ using System.IO;
 
 namespace ShowdownGame
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-
-            var gamePlayers = new List<PokerPlayer>();
-
-            string name = null;
-            bool gotName = false;
-            //read player data from file
-            foreach (string line in File.ReadLines(@"../../../AppData/gameData.txt"))
-            {
-
-                //create new player, grabbing name first followed by cards
-                if (!gotName)
-                {
-                    name = line;
-                    gotName = true;
-                    continue;
-                }
-
-                //create new PokerPlayer object
-                var newPlayer = new PokerPlayer(name, line);
-
-                //add newPlayer to list of gamePlayers
-                gamePlayers.Add(newPlayer);
-
-                name = null;
-                gotName = false;
-            }
+            string input = @"../../../AppData/gameData.txt";
+            List<PokerPlayer> gamePlayers = CreatePlayers(input);
 
             List<PokerPlayer> gameWinners = DetermineWinners(gamePlayers);
 
@@ -58,7 +34,38 @@ namespace ShowdownGame
             Console.ReadLine();
         }
 
-        private static List<PokerPlayer> DetermineWinners(List<PokerPlayer> gamePlayers)
+        public static List<PokerPlayer> CreatePlayers(string inputFilePath)
+        {
+            var gamePlayers = new List<PokerPlayer>();
+
+            string name = null;
+            bool gotName = false;
+            //read player data from file
+            foreach (string line in File.ReadLines(inputFilePath))
+            {
+
+                //create new player, grabbing name first followed by cards
+                if (!gotName)
+                {
+                    name = line;
+                    gotName = true;
+                    continue;
+                }
+
+                //create new PokerPlayer object
+                var newPlayer = new PokerPlayer(name, line);
+
+                //add newPlayer to list of gamePlayers
+                gamePlayers.Add(newPlayer);
+
+                name = null;
+                gotName = false;
+            }
+
+            return gamePlayers;
+        }
+
+        public static List<PokerPlayer> DetermineWinners(List<PokerPlayer> gamePlayers)
         {
             HandRankEvaluator winningHand = null;
             List<PokerPlayer> winningPlayers = new List<PokerPlayer>();
@@ -191,7 +198,6 @@ namespace ShowdownGame
         private static List<PokerPlayer> KickerLogic(HandRankEvaluator currentPlayerHand, HandRankEvaluator winningHand)
         {
 
-            bool tie = false;
             List<PokerPlayer> kickerWinners = new List<PokerPlayer>();
 
             int count = 0;

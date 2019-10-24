@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShowdownGame", "ShowdownGame.csproj", "{CCD683A2-679D-4AB6-9D44-FEE379AE97A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShowdownGame.Test", "ShowdownGame.Test\ShowdownGame.Test.csproj", "{4D43A028-E449-48F9-B53E-D3CC3AC384AD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShowdownGame", "ShowdownGameApp\ShowdownGame.csproj", "{7E23AC2A-4342-4A8C-8155-960F70A0696D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CCD683A2-679D-4AB6-9D44-FEE379AE97A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CCD683A2-679D-4AB6-9D44-FEE379AE97A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CCD683A2-679D-4AB6-9D44-FEE379AE97A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CCD683A2-679D-4AB6-9D44-FEE379AE97A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D43A028-E449-48F9-B53E-D3CC3AC384AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D43A028-E449-48F9-B53E-D3CC3AC384AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D43A028-E449-48F9-B53E-D3CC3AC384AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D43A028-E449-48F9-B53E-D3CC3AC384AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E23AC2A-4342-4A8C-8155-960F70A0696D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E23AC2A-4342-4A8C-8155-960F70A0696D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E23AC2A-4342-4A8C-8155-960F70A0696D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E23AC2A-4342-4A8C-8155-960F70A0696D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
