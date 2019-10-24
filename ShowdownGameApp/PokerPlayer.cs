@@ -21,12 +21,22 @@ namespace ShowdownGame
                 //remove any potential whitespace
                 var item = Cards[i].Trim();
 
-                //suit index should be last character of string
-                var suitIndex = item.Length - 1;
+                //validate card string length
+                if (item.Length >= 2 && item.Length <= 3)
+                {
+                    //suit index should be last character of string
+                    var suitIndex = item.Length - 1;
 
-                //convert to Card object and add to Hand
-                var newCard = new Card(item.Substring(0, suitIndex).ToUpper(), item.Substring(suitIndex));
-                Hand.Add(newCard);
+                    //convert to Card object and add to Hand
+                    var newCard = new Card(item.Substring(0, suitIndex).ToUpper(), item.Substring(suitIndex));
+                    Hand.Add(newCard);
+                }
+                //TODO: improve validation and exception handeling
+                else
+                {
+                    Console.WriteLine("Invalid card: " + item);
+                    Console.ReadLine();
+                }
             }
 
         }
