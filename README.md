@@ -96,6 +96,10 @@ Jen Wins
 ...
 
 ## Assumptions:
+• Each players cards have already been dealt and will be provided via an input file.
+
+• The input will be in the format Name on 1st line, and on the 2nd line 5 Cards separated by comma's - as per the examples.
+
 • Data will always be given in the format valueSuit seperate by comma's eg. 8S, 8D, AD, QD, JH.
 
 • Card will not be longer than 3 characters or less than 2.
